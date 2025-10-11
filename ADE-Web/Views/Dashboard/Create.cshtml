@@ -1,0 +1,70 @@
+﻿@model ADE_Web.Models.ViewModels.CreateAppsBuildViewModel
+
+@{
+    ViewData["Title"] = "Create New App";
+}
+
+<h2 class="mb-4">Create New App</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="AppName" class="form-label">App Name</label>
+        <input asp-for="AppName" class="form-control" />
+        <span asp-validation-for="AppName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="AppGitHubUrl" class="form-label">GitHub URL</label>
+        <input asp-for="AppGitHubUrl" class="form-control" />
+        <span asp-validation-for="AppGitHubUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="AppDescription" class="form-label">Description</label>
+        <textarea asp-for="AppDescription" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="AppDescription" class="text-danger"></span>
+    </div>
+
+    <hr />
+    <h4>Improvements</h4>
+
+    <div id="improvements-container">
+        <!-- Dynamic improvement fields will appear here -->
+    </div>
+
+    <button type="button" class="btn btn-secondary mt-2" id="add-improvement">+ Add Improvement</button>
+
+    <hr class="mt-4" />
+
+    <button type="submit" class="btn btn-primary">Save App</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let improvementIndex = 0;
+
+        document.getElementById("add-improvement").addEventListener("click", function () {
+            const container = document.getElementById("improvements-container");
+
+            const newField = document.createElement("div");
+            newField.classList.add("input-group", "mb-2");
+            newField.innerHTML = `
+                <input type="text" name="Improvements[${improvementIndex}].Improvement"
+                       class="form-control" placeholder="Enter improvement detail" />
+                <button type="button" class="btn btn-danger remove-improvement">Remove</button>
+            `;
+
+            container.appendChild(newField);
+            improvementIndex++;
+        });
+
+        document.getElementById("improvements-container").addEventListener("click", function (e) {
+            if (e.target.classList.contains("remove-improvement")) {
+                e.target.closest(".input-group").remove();
+            }
+        });
+    </script>
+}
