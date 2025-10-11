@@ -10,7 +10,7 @@ namespace ADE_Web.Data
             : base(options) { }
 
         // Applications Models
-        public DbSet<AppsBuilt> appsBuilts { get; set; }
-        public DbSet<AppImprovement> appImprovements { get; set; }
+        public DbSet<AppsBuilt> appsBuilt { get; set; }
+        public DbSet<AppImprovement> appImprovement { get; set; }
     }
 }
