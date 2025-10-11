@@ -1,4 +1,5 @@
 using ADE_Web.Data;
+using ADE_Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -20,6 +21,9 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
+
+// Register scopes
+builder.Services.AddScoped<IAppsService, AppsService>();
 
 // Add services to the container
 builder.Services.AddControllersWithViews();
