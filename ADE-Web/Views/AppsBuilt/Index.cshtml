@@ -1,0 +1,47 @@
+﻿@model List<ADE_Web.Models.AppsBuilt>
+
+@{
+    ViewData["Title"] = "Apps Built";
+}
+
+<div id="index-dev-app-title">
+    <h2>List of applications I built</h2>
+    <p>
+        Below is a collection of applications I’ve developed over time — each one representing a step forward in my growth as a developer. From small utility tools to more advanced business solutions, every project
+        reflects my passion for learning, problem-solving, and building practical software.
+    </p>
+    <p>And this is just the beginning — there’s plenty more to come!</p>
+</div>
+
+<div class="card-layout-container">
+    @foreach (var app in Model)
+    {
+        <div class="card">
+            <h3>@app.AppName</h3>
+
+            <a href="@app.AppGitHubUrl" target="_blank" class="card-link">View GitHub Repo</a>
+
+            <div class="app-section">
+                <h4>What does this app do?</h4>
+                <p>@app.AppDescription</p>
+            </div>
+
+            <div class="card-list-section">
+                <h4>Next steps / planned improvements</h4>
+                <ul class="stripped-list">
+                    @if (app.appImprovements != null && app.appImprovements.Any())
+                    {
+                        foreach (var improvement in app.appImprovements)
+                        {
+                            <li>@improvement.Improvement</li>
+                        }
+                    }
+                    else
+                    {
+                        <li>No improvements to be made</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+</div>
