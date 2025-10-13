@@ -1,150 +1,25 @@
-﻿@model ADE_Web.Models.AppsBuiltModel
+﻿@model List<ADE_Web.Models.BlogModel>
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Blogs / Home";
 }
 
-<div class="" id="index-dev-app-container">
-    <h2>ADE-Enterprise ERP</h2>
-    <a href="https://github.com/Marcel-harvey/ADE-Enterprise-ERP" target="_blank">Link to the GitHub Repo</a>
-
-    <div class="image-container">
-        <img />
-    </div>
-
-    <div class="">
-        <h4>What does this app do?</h4>
-
-        <p>
-            This is a basic <a href="https://www.oracle.com/africa/erp/what-is-erp" target="_blank">ERP</a> (Enterprise Resource Planning) system designed to manage key business processes
-            such as quotations, invoicing, purchase orders, and goods received notes. It also provides efficient inventory management by tracking stock levels and alerting users when quantities are
-            low, ensuring timely restocking.
-
-        </p>
-
-        <p>
-            The system leverages the Microsoft Identity Framework to manage user authentication and authorization, ensuring robust security and up-to-date account management. Role-based access control
-            is implemented to define user permissions — for example, only administrators can create new users, while sales personnel are limited to creating quotes and invoices.
-        </p>
-
-        <p>
-            In essence, this structure ensures that users operate within their designated roles, enhancing security, efficiency, and overall organizational control.
-        </p>
-    </div>
-
-    <div class="">
-        <h4>What is next / upgrades for this app</h4>
-
-        <p>
-            There are a couple of upgrades to still do on this app. 
-            <br />
-            To name a few:
-            <ul class="stripped-list">
-                <li>
-                    Add proper payment methods to track when invoices are paid and what amount is paid. If it has been paid in full etc.
-                </li>
-
-                <li>
-                    Add a stock taking method for if stock take is done.
-                </li>
-
-                <li>
-                    Add a picking slipp function to the app so that you can have record of the picked stock and to who it weant.
-                </li>
-            </ul>
-        </p>
-    </div>
+<div id="index-dev-app-title">
+    <h2>My Personal Blog</h2>
+    <p>
+        Follow my blog to see what I am up to
+    </p>
 </div>
 
-<div class="" id="index-dev-app-container">
-    <h2>ADE-ToDo </h2>
-    <a href="https://github.com/Marcel-harvey/ADE-Enterprise-ERP" target="_blank">Link to the GitHub Repo</a>
+<div class="card-layout-container">
+    @foreach (var blog in Model)
+    {
+        <div class="card">
+            <h3>@blog.BlogTitle</h3>
 
-    <div class="image-container">
-        <img />
-    </div>
-
-    <div class="">
-        <h4>What does this app do?</h4>
-
-        <p>
-            ADE-ToDo is a task management application designed to help users efficiently track their daily activities using intuitive checkbox-style fields. This simple and user-friendly interface 
-            makes it quick and easy to update tasks on the go.
-        </p>
-
-        <p>
-            This project represents my first C# application, developed as a learning exercise to understand the fundamentals of the language and its core functionalities. While it is not yet suitable
-            for production or enterprise-level workflow management, it remains a practical tool for personal use—ideal for tracking those small but important tasks that are often easy to forget.
-        </p>
-    </div>
-
-    <div class="">
-        <h4>What is next / upgrades for this app</h4>
-
-        <p>
-            There are a couple of upgrades to still do on this app.
-            <br />
-            To name a few:
-            <ul class="stripped-list">
-                <li>
-                    A proper work flow management system
-                </li>
-
-                <li>
-                    Convert most of the app to API's so that a mobile version can be created in the future
-                </li>
-
-                <li>
-                    Link it up with your callender and have its own calender to see what you have booked for the rest of the week, month and year
-                </li>
-            </ul>
-        </p>
-    </div>
+            <div class="app-section">
+                <p>@blog.BlogContent</p>
+            </div>
+        </div>
+    }
 </div>
-
-<div class="" id="index-dev-app-container">
-    <h2>Lola-Assistant </h2>
-    <a href="https://github.com/Marcel-harvey/Lola-Assitant-Bot" target="_blank">Link to the GitHub Repo</a>
-
-    <div class="image-container">
-        <img />
-    </div>
-
-    <div class="">
-        <h4>What does this app do?</h4>
-
-        <p>
-            Lola Assistant was developed to streamline one of my primary gaming interfaces. While searching for a game, the application allowed me to select the desired game mode, choose my preferred role
-            , and accept matches — all automatically — giving me the freedom to step away briefly (usually for a quick cup of coffee, an essential part of my personality).
-        </p>
-
-        <p>
-            Lola was built using Python with AutoHotkey scripts to simulate mouse movements and clicks. Although this approach is somewhat outdated today, it proved highly effective at the time. The main limitation,
-            however, was that the game interface had to remain in a fixed position on the screen for the automation to function correctly.
-        </p>
-    </div>
-
-    <div class="">
-        <h4>What is next / upgrades for this app</h4>
-
-        <p>
-            There are a couple of upgrades to still do on this app.
-            <br />
-            To name a few:
-            <ul class="stripped-list">
-                <li>
-                    Replace the Auto Hotkeys with screen image recognizing software, that will se when the screen changes for accept etc.
-                </li>
-
-                <li>
-                    Update the voice recognition software to something more moderm
-                </li>
-
-                <li>
-                    Add a wake word to Lola, so she responds to her name. Not just every sound
-                </li>
-            </ul>
-        </p>
-    </div>
-</div>
-

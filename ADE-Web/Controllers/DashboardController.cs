@@ -3,6 +3,7 @@ using ADE_Web.Models;
 using ADE_Web.Models.ViewModels;
 using ADE_Web.Services.AppsBuiltService;
 using ADE_Web.Services.TechStackService;
+using ADE_Web.Services.BlogService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -14,12 +15,14 @@ namespace ADE_Web.Controllers
     {
         private readonly IAppsService _appsService;
         private readonly ITechService _techService;
+        private readonly IBlogService _blogService;
         private readonly ApplicationDbContext _context;
 
-        public DashboardController(IAppsService appsService,ITechService techService, ApplicationDbContext context)
+        public DashboardController(IAppsService appsService,ITechService techService,IBlogService blogService, ApplicationDbContext context)
         {
             _appsService = appsService;
             _techService = techService;
+            _blogService = blogService;
             _context = context;
         }
 
@@ -29,6 +32,7 @@ namespace ADE_Web.Controllers
         }
 
 
+        // ================ BUILT APPS SECTION ================
         // GET: View all current apps
         public IActionResult ViewAppsBuilt()
         {
@@ -61,6 +65,7 @@ namespace ADE_Web.Controllers
         }
 
 
+        // ================ TECH STACK SECTION ================
         // GET: View tech stack
         public IActionResult ViewTechStack()
         {
@@ -90,6 +95,37 @@ namespace ADE_Web.Controllers
 
             TempData["Success"] = "New Tech Stack created successfully!";
             return RedirectToAction(nameof(ViewTechStack));
+        }
+
+        // ================ BLOG SECTION ================
+        //GET: View all blogs
+        public IActionResult ViewBlog()
+        {
+            var blog = _blogService.GetAllBlogs();
+
+            return View(blog);
+        }
+
+
+        // GET: Create new blog
+        public IActionResult CreateBlog()
+        {
+            return View();
+        }
+
+        // POST: Create new blog
+        [HttpPost]
+        public async Task<IActionResult> CreateBlog(CreateBlogViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await _blogService.AddBlog(model);
+            TempData["Success"] = "New blog created successfully!";
+
+            return RedirectToAction(nameof(ViewBlog));
         }
 
     }

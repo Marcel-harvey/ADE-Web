@@ -13,5 +13,6 @@ namespace ADE_Web.Data
         public DbSet<AppsBuiltModel> appsBuilt { get; set; }
         public DbSet<AppImprovementModel> appImprovement { get; set; }
         public DbSet<TechStackModel> techStack { get; set; }
+        public DbSet<BlogModel> blog { get; set; }
     }
 }

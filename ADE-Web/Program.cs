@@ -1,5 +1,6 @@
 using ADE_Web.Data;
 using ADE_Web.Services.AppsBuiltService;
+using ADE_Web.Services.BlogService;
 using ADE_Web.Services.TechStackService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +27,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Register scopes
 builder.Services.AddScoped<IAppsService, AppsService>();
 builder.Services.AddScoped<ITechService, TechService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
 
 // Add services to the container
 builder.Services.AddControllersWithViews();

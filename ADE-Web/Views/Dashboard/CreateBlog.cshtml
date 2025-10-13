@@ -1,0 +1,51 @@
+﻿@model ADE_Web.Models.ViewModels.CreateBlogViewModel
+
+@{
+    ViewData["Title"] = "Create New Blog";
+}
+
+@section ExtraNavLinks {
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul id="nav-links" class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewAppsBuilt">
+                    Apps Built
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewTechStack">
+                    Tech Stack
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
+<h2 class="mb-4">Create New App</h2>
+
+<form asp-action="CreateBlog" method="post">
+    <div class="form-group mb-3">
+        <label asp-for="BlogTitle" class="form-label">Blog Title</label>
+        <input asp-for="BlogTitle" class="form-control" />
+        <span asp-validation-for="BlogTitle" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mb-3">
+        <label asp-for="BlogContent" class="form-label">Blog Content</label>
+        <textarea asp-for="BlogContent" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="BlogContent" class="text-danger"></span>
+    </div>
+
+    <hr />
+    <h4>Improvements</h4>
+
+    <hr class="mt-4" />
+
+    <button type="submit" class="btn btn-primary">Save App</button>
+    <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

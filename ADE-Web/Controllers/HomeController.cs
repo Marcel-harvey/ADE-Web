@@ -1,5 +1,6 @@
 using ADE_Web.Data;
 using ADE_Web.Models;
+using ADE_Web.Services.BlogService;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -10,30 +11,20 @@ namespace ADE_Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly IBlogService _blogService;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IBlogService blogService)
         {
             _logger = logger;
             _context = context;
+            _blogService = blogService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var apps = await _context.appsBuilt
-                .Include(app => app.appImprovements)
-                .FirstOrDefaultAsync();
+            var blog = _blogService.GetAllBlogs();
 
-            return View(apps);
-        }
-
-        public IActionResult PotentialEmpoyer()
-        {
-            return View();
-        }
-
-        public IActionResult Freelancing()
-        {
-            return View();
+            return View(blog);
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,83 @@
+﻿@model List<ADE_Web.Models.BlogModel>
+
+@{
+    ViewData["Title"] = "Blog Dashboard";
+}
+
+@section ExtraNavLinks {
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul id="nav-links" class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewAppsBuilt">
+                    Apps Built
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewTechStack">
+                    Tech Stack
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Blog Dashboard</h2>
+        <a asp-action="CreateBlog" class="btn btn-primary">+ Add New Blog</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No apps have been created yet.</div>
+    }
+    else
+    {
+        @foreach (var blog in Model)
+        {
+            <table id="dashboard-table-index">
+                <tbody id="dashboard-table-tbody-index">
+                    <tr>
+                        <th>
+                            Blog Title
+                        </th>
+
+                        <td>
+                            @blog.BlogTitle
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Blog Content
+                        </th>
+
+                        <td style="white-space: pre-wrap;">
+                            @blog.BlogContent
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Actions
+                        </th>
+
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@blog.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@blog.Id" class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Are you sure you want to delete this app?');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>
