@@ -172,5 +172,13 @@ h1, h2, h3
 #dashboard-table-index th
 {
     border: 1px dashed black;
+    padding: 10px;
+    width: 20%;
+    text-align: center;
+}
+
+#dashboard-table-index td
+{
+    padding: 15px;
 }
 
