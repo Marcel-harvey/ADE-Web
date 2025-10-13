@@ -1,3 +1,8 @@
+/* CSS variables for standarizing */
+:root {
+    --spacing: 3vh;
+}
+
 html 
 {
   font-size: 14px;
@@ -45,6 +50,12 @@ a {
 a:hover {
     color: #1d4ed8;
     text-decoration: underline;
+}
+
+h1
+{
+    text-align: center;
+    margin-bottom: var(--spacing);
 }
 
 h1, h2, h3
@@ -122,6 +133,16 @@ h1, h2, h3
     white-space: pre-line; /* keeps line breaks from AppDescription */
 }
 
+.display-table
+{
+    border-collapse: separate;
+    border-spacing: 15vw 0;
+}
+
+.table-spacing {
+    margin-top: var(--spacing);
+}
+
 
 /* Specified - spesific parts of the page that needs the CSS tweaked to look better */
 
@@ -158,3 +179,4 @@ h1, h2, h3
 {
     border: 1px dashed black;
 }
+
