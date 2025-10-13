@@ -33,9 +33,18 @@ main
 }
 
 /* Standards - to make the entire site look and feel the same */
-a 
-{
-    color: black;
+a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-block;
+    margin-bottom: 20px;
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
 }
 
 h1, h2, h3
@@ -61,7 +70,6 @@ h1, h2, h3
     padding: 0 20px 50px;
 }
 
-/* ===== Card Style ===== */
 .card {
     background: #ffffff;
     border-radius: 16px;
