@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace ADE_Web.Controllers
 {
+    [Authorize]
     public class DashboardController :Controller
     {
         private readonly IAppsService _appsService;
