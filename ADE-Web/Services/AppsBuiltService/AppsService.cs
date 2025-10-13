@@ -7,7 +7,7 @@ using System.Linq;
 
 
 // Service layer that can be injected everywhere in app
-namespace ADE_Web.Services
+namespace ADE_Web.Services.AppsBuiltService
 {
     public class AppsService : IAppsService
     {
@@ -52,8 +52,8 @@ namespace ADE_Web.Services
 
 
         // Update app - returns none
-        public void UpdateApp(AppsBuilt app) 
-        { 
+        public void UpdateApp(AppsBuilt app)
+        {
             _context.appsBuilt.Update(app);
             _context.SaveChanges();
         }
