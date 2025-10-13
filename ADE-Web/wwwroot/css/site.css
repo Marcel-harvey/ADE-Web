@@ -146,12 +146,6 @@ h1, h2, h3
 
 /* Specified - spesific parts of the page that needs the CSS tweaked to look better */
 
-/* Gap between extra nav links */
-#nav-links
-{
-    gap: 20px;
-}
-
 #index-dev-app-title {
     text-align: center;
     margin-bottom: 50px;

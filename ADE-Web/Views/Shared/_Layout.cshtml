@@ -23,27 +23,57 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Blog</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
+                                Blog
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="PotentialEmployer" asp-action="Index">Potential Employers</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PotentialEmployer" asp-action="Index">
+                                Potential Employers
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Freelancing" asp-action="Index">Freelancing</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Freelancing" asp-action="Index">
+                                Freelancing
+                            </a>
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AppsBuilt" asp-action="Index">Apps built</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="AppsBuilt" asp-action="Index">
+                                Apps built
+                            </a>
                         </li>
 
-                        
+                        @if (ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark">
+                                        ||
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="ViewAppsBuilt">
+                                        Apps Built
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="ViewTechStack">
+                                        Tech Stack
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="ViewBlog">
+                                        Tech Stack
+                                    </a>
+                                </li>
+                            }                        
                     </ul>
                 </div>
-
-                <!-- Extra links for dash -->
-                @RenderSection("ExtraNavLinks", required: false)
             </div>
         </nav>
     </header>
