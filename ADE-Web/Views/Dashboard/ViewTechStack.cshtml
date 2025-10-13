@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model List<ADE_Web.Models.TechStackModel>
+
 @{
+    ViewData["Title"] = "Apps Dashboard";
 }
+
+@section ExtraNavLinks {
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul id="nav-links" class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewAppsBuilt">
+                    Apps Built
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewTechStack">
+                    Tech Stack
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2>Tech Stack Dashboard</h2>
+        <a asp-action="CreateTechStack" class="btn btn-primary">+ Add New Tech Stack</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">No Tech Stacks have been created yet.</div>
+    }
+    else
+    {
+        @foreach (var tech in Model)
+        {
+            <table id="dashboard-table-index">
+                <tbody id="dashboard-table-tbody-index">
+                    <tr>
+                        <th>
+                            Language
+                        </th>
+
+                        <td>
+                            @tech.Language
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Proficiency
+                        </th>
+
+                        <td>
+                            @tech.Proficiency
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            Actions
+                        </th>
+
+                        <td>
+                            <div class="btn-group">
+                                <a asp-action="Edit" asp-route-id="@tech.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@tech.Id" class="btn btn-sm btn-outline-danger"
+                                   onclick="return confirm('Are you sure you want to delete this app?');">Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+    }
+</div>
