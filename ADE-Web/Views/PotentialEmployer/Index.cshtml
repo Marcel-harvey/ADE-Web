@@ -1,12 +1,50 @@
 ﻿@{
     ViewData["Title"] = "Potential Employer";
 }
-<h1>@ViewData["Title"]</h1>
+
+<div class="table-spacing" id="index-dev-app-title">
+    <h2>My Growing Tech Stack</h2>
+    <table class="display-table">
+        <thead>
+            <tr>
+                <th>
+                    Language / Framework
+                </th>
+
+                <th>
+                    Proficiency (out of 5)
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            @foreach (var tech in Model)
+            {
+                <tr>
+                    <td>
+                        @tech.Language
+                    </td>
+
+                    <td>
+                        @tech.Proficiency
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p class="mt-3">
+        I’m constantly improving and expanding my skill set, exploring new frameworks, and keeping up to date with modern development practices.
+        My focus is not only on mastering the tools but also on understanding how to use them effectively to create real impact in a team and business environment.
+    </p>
+</div>
 
 <div class="prospect-employee">
     <p>
         <strong>Marcel Harvey</strong><br />
-        <a href="mailto:marcelharvey1@gmail.com?subject=Potential%20New%20Employer">marcelharvey1@gmail.com</a><br />
+        <a href="mailto:marcelharvey1@gmail.com?subject=Potential%20New%20Employer">marcelharvey1@gmail.com</a>
+        <br />
         071 453 5989
         <br /><br />
 
@@ -46,99 +84,4 @@
     <div class="text-muted small mt-2">
         (PDF, 150 KB)
     </div>
-</div>
-
-<div>
-    <h2>My Growing Tech Stack</h2>
-
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    Language / Framework
-                </th>
-
-                <th>
-                    Proficiency (out of 5)
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>
-                    C#
-                </td>
-
-                <td>
-                    3
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    Python
-                </td>
-                    
-                <td>
-                    4
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    Java
-                </td>
-                    
-                <td>
-                    3
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    JavaScript
-                </td>
-                
-                <td>
-                    3
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    Angular
-                </td>
-                
-                <td>
-                    2
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    .NET Core
-                </td>
-                
-                <td>
-                    3
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    MySQL
-                </td>
-                
-                <td>
-                    3
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <p class="mt-3">
-        I’m constantly improving and expanding my skill set, exploring new frameworks, and keeping up to date with modern development practices.
-        My focus is not only on mastering the tools but also on understanding how to use them effectively to create real impact in a team and business environment.
-    </p>
 </div>
