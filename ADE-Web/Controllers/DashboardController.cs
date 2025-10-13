@@ -20,23 +20,40 @@ namespace ADE_Web.Controllers
             _context = context;
         }
 
-        // View all current apps
         public IActionResult Index()
+        {
+            return RedirectToAction(nameof(ViewAppsBuilt));
+        }
+
+
+        // GET: View all current apps
+        public IActionResult ViewAppsBuilt()
         {
             var apps = _appsService.GetAllApps();
 
             return View(apps);
         }
 
+
+        // GET: View tech stack
+        public IActionResult ViewTechStack()
+        {
+            var apps = _appsService.GetAllApps();
+
+            return View(apps);
+        }
+
+
         // GET: Create a new app
-        public IActionResult Create()
+        public IActionResult CreateAppsBuilt()
         {
             return View();
         }
 
+
         //POST: Create a new app
         [HttpPost]
-        public async Task<IActionResult> Create(CreateAppsBuildViewModel model)
+        public async Task<IActionResult> CreateAppsBuilt(CreateAppsBuildViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -47,6 +64,13 @@ namespace ADE_Web.Controllers
 
             TempData["Success"] = "App created successfully!";
             return RedirectToAction(nameof(Index));            
+        }
+
+
+        //GET: Create new tech stack
+        public IActionResult CreateTechStack()
+        {
+            return View();
         }
 
     }

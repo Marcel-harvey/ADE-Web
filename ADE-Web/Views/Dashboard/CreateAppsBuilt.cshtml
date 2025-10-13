@@ -4,9 +4,27 @@
     ViewData["Title"] = "Create New App";
 }
 
+@section ExtraNavLinks {
+    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+        <ul id="nav-links" class="navbar-nav flex-grow-1">
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewAppsBuilt">
+                    Apps Built
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a asp-controller="Dashboard" asp-action="ViewTechStack">
+                    Tech Stack
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
 <h2 class="mb-4">Create New App</h2>
 
-<form asp-action="Create" method="post">
+<form asp-action="CreateAppsBuilt" method="post">
     <div class="form-group mb-3">
         <label asp-for="AppName" class="form-label">App Name</label>
         <input asp-for="AppName" class="form-control" />
