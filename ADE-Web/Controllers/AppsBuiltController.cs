@@ -31,7 +31,7 @@ namespace ADE_Web.Controllers
         // API Actions
         // Create a new app - returns Status 200 if success
         [HttpPost("api/apps/{app}")]
-        public IActionResult CreateApp(AppsBuilt app)
+        public IActionResult CreateApp(AppsBuiltModel app)
         {
             if (app == null)
             {

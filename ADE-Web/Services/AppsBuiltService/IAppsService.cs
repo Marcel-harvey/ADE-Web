@@ -7,10 +7,10 @@ namespace ADE_Web.Services.AppsBuiltService
 {
     public interface IAppsService
     {
-        List<AppsBuilt> GetAllApps();
-        AppsBuilt? GetApp(int id);
+        List<AppsBuiltModel> GetAllApps();
+        AppsBuiltModel? GetApp(int id);
         Task AddApp(CreateAppsBuildViewModel model);
-        void UpdateApp(AppsBuilt app);
+        void UpdateApp(AppsBuiltModel app);
         void DeleteApp(int id);
     }
 }

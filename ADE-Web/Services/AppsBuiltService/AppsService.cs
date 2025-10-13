@@ -19,17 +19,17 @@ namespace ADE_Web.Services.AppsBuiltService
         }
 
         // Get all apps
-        public List<AppsBuilt> GetAllApps() => _context.appsBuilt.Include(apps => apps.appImprovements).ToList();
+        public List<AppsBuiltModel> GetAllApps() => _context.appsBuilt.Include(apps => apps.appImprovements).ToList();
 
 
         // Get app via ID
-        public AppsBuilt? GetApp(int id) => _context.appsBuilt.Include(app => app.appImprovements).FirstOrDefault();
+        public AppsBuiltModel? GetApp(int id) => _context.appsBuilt.Include(app => app.appImprovements).FirstOrDefault();
 
 
         // Add app to model - returns none
         public async Task AddApp(CreateAppsBuildViewModel model)
         {
-            var app = new AppsBuilt
+            var app = new AppsBuiltModel
             {
                 AppName = model.AppName,
                 AppGitHubUrl = model.AppGitHubUrl,
@@ -38,7 +38,7 @@ namespace ADE_Web.Services.AppsBuiltService
 
             foreach (var impVm in model.Improvements ?? new List<CreateAppImprovementViewModel>())
             {
-                var improvement = new AppImprovement
+                var improvement = new AppImprovementModel
                 {
                     Improvement = impVm.Improvement,
                     AppsBuilt = app
@@ -52,7 +52,7 @@ namespace ADE_Web.Services.AppsBuiltService
 
 
         // Update app - returns none
-        public void UpdateApp(AppsBuilt app)
+        public void UpdateApp(AppsBuiltModel app)
         {
             _context.appsBuilt.Update(app);
             _context.SaveChanges();

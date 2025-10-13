@@ -1,6 +1,6 @@
 ﻿namespace ADE_Web.Models
 {
-    public class AppImprovement
+    public class AppImprovementModel
     {
         public int Id { get; set; }
         public string Improvement { get; set; } = string.Empty;
@@ -8,6 +8,6 @@
         public int AppsBuiltId { get; set; }
 
         // Navigation Property
-        public AppsBuilt? AppsBuilt { get; set; }
+        public AppsBuiltModel? AppsBuilt { get; set; }
     }
 }
