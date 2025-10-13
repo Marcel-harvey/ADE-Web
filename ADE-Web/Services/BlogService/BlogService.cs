@@ -29,6 +29,7 @@ namespace ADE_Web.Services.BlogService
             {
                 BlogTitle = model.BlogTitle,
                 BlogContent = model.BlogContent,
+                DatePosted = DateTime.Now,
             };
 
             _context.blog.Add(blog);
