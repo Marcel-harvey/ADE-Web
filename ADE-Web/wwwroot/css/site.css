@@ -182,3 +182,13 @@ h1, h2, h3
     padding: 15px;
 }
 
+#date-posted {
+    padding-top: 2vh;
+    margin-bottom: 0;
+    text-align: right;
+    font-size: 0.7em;
+    font-weight: bold;
+    font-style: italic;
+    letter-spacing: 2px;
+}
+
