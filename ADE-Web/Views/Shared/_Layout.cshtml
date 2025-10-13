@@ -37,8 +37,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="AppsBuilt" asp-action="Index">Apps built</a>
                         </li>
+
+                        
                     </ul>
                 </div>
+
+                <!-- Extra links for dash -->
+                @RenderSection("ExtraNavLinks", required: false)
             </div>
         </nav>
     </header>
