@@ -63,6 +63,26 @@ h1, h2, h3
     text-transform: capitalize;
 }
 
+.navbar-logo {
+    height: 60px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+@media (max-width: 768px) {
+    .navbar-logo {
+        height: 30px; /* slightly smaller on tablets */
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        height: 25px; /* smaller on phones */
+    }
+}
+
+
 .stripped-list 
 {
     list-style-type: none;
