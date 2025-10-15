@@ -9,7 +9,7 @@ namespace ADE_Web.Services.BlogService
         List<BlogModel> GetAllBlogs();
         BlogModel? GetBlog(int id);
         Task AddBlog (CreateBlogViewModel model);
-        void UpdateBlog(BlogModel model);
-        void DeleteBlog(int id);
+        Task UpdateBlog(UpdateBlogViewModel model);
+        Task DeleteBlog(int id);
     }
 }

@@ -38,22 +38,35 @@ namespace ADE_Web.Services.BlogService
 
 
         // Update blog
-        public void UpdateBlog(BlogModel model)
+        public async Task UpdateBlog(UpdateBlogViewModel model)
         {
-            _context.blog.Remove(model);
+            var updateBlog = await _context.blog.FindAsync(model.BlogId);
+
+            if (updateBlog == null)
+            {
+                throw new KeyNotFoundException($"Blog with ID {model.BlogId} not found.");
+            }
+
+            updateBlog.BlogTitle = model.BlogTitle;
+            updateBlog.BlogContent = model.BlogContent;
+
+            await _context.SaveChangesAsync();
         }
 
 
         // DeleteBlog using ID
-        public void DeleteBlog(int id)
+        public async Task DeleteBlog(int id)
         {
-            var deleteBlog = _context.blog.FirstOrDefault(blog => blog.Id == id);
+            var deleteBlog = await _context.blog.FindAsync(id);
 
-            if (deleteBlog != null)
+
+            if (deleteBlog == null)
             {
-                _context.blog.Remove(deleteBlog);
-                _context.SaveChanges();
+                throw new KeyNotFoundException($"Blog with ID {id} not found.");
             }
+
+            _context.blog.Remove(deleteBlog);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -128,5 +128,42 @@ namespace ADE_Web.Controllers
             return RedirectToAction(nameof(ViewBlog));
         }
 
+
+        // POST Edit current blog - done through AJAX on modal view
+        [HttpPost]
+        public async Task<IActionResult> UpdateBlog(UpdateBlogViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Input");
+            }
+
+            try
+            {
+                await _blogService.UpdateBlog(model);
+                return Ok(new {message = "Blog updated successgully"});
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+
+        // POST: Delete current blog - done through AJAX on modal view
+        [HttpPost]
+        public async Task<IActionResult> DeleteBlog(int id)
+        {
+            try
+            {
+                await _blogService.DeleteBlog(id);
+                return Ok(new {message = "Blog deleted successfully"});
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
     }
 }
