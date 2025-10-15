@@ -5,18 +5,17 @@ using ADE_Web.Services.TechStackService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --- DATABASE CONNECTION ---
+// 1. Use PostgreSQL from connection string (Neon)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-// --- IDENTITY ---
+// 2. Add Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -28,7 +27,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 
-// --- SERVICES ---
+// 3. Register scoped services
 builder.Services.AddScoped<IAppsService, AppsService>();
 builder.Services.AddScoped<ITechService, TechService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
@@ -38,22 +37,30 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// --- AUTO MIGRATION ---
+// 4. Apply migrations safely
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    db.Database.Migrate();
+    try
+    {
+        db.Database.Migrate(); // auto-apply migrations
+    }
+    catch (Exception ex)
+    {
+        // Log to Azure App Service logs
+        Console.WriteLine("Migration failed: " + ex.Message);
+    }
 }
 
-// --- CREATE ADMIN USER ---
+// 5. Create Admin User
 async Task CreateAdminUser(IApplicationBuilder app)
 {
     using var scope = app.ApplicationServices.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var adminEmail = builder.Configuration["AdminUser:Email"] ?? "marcel@ade.com";
-    var adminPassword = builder.Configuration["AdminUser:Password"] ?? "Admin123!";
+    var adminEmail = "marcel@ade.com";
+    var adminPassword = "Admin123!";
     var adminRole = "Admin";
 
     if (!await roleManager.RoleExistsAsync(adminRole))
@@ -62,13 +69,7 @@ async Task CreateAdminUser(IApplicationBuilder app)
     var user = await userManager.FindByEmailAsync(adminEmail);
     if (user == null)
     {
-        user = new IdentityUser
-        {
-            UserName = adminEmail,
-            Email = adminEmail,
-            EmailConfirmed = true
-        };
-
+        user = new IdentityUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true };
         await userManager.CreateAsync(user, adminPassword);
         await userManager.AddToRoleAsync(user, adminRole);
     }
@@ -76,14 +77,13 @@ async Task CreateAdminUser(IApplicationBuilder app)
 
 await CreateAdminUser(app);
 
-// --- MIDDLEWARE ---
+// 6. Middleware
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-// --- CULTURE SETTINGS ---
 var defaultCulture = new CultureInfo("en-ZA");
 defaultCulture.NumberFormat.NumberDecimalSeparator = ".";
 defaultCulture.NumberFormat.CurrencyDecimalSeparator = ".";
