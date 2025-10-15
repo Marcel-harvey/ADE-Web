@@ -5,7 +5,7 @@
 namespace ADE_Web.Migrations
 {
     /// <inheritdoc />
-    public partial class InitCommitBlod : Migration
+    public partial class CgangedSateTimeToUtc : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

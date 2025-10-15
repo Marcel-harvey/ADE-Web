@@ -4,13 +4,14 @@ using ADE_Web.Services.BlogService;
 using ADE_Web.Services.TechStackService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 1. Add SQL Server connection
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // 2. Add Identity with roles
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
