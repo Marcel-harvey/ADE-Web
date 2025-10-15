@@ -37,23 +37,34 @@ namespace ADE_Web.Services.TechStackService
 
 
         // Update tech - returns none
-        public void UpdateTech(TechStackModel tech)
+        public async Task UpdateTech(UpdateTechStackViewModel model)
         {
-            _context.techStack.Update(tech);
-            _context.SaveChanges();
+            var updateTechStack = await _context.techStack.FindAsync(model.TechStackId);
+
+            if (updateTechStack == null)
+            {
+                throw new KeyNotFoundException($"Tech Stack with ID: {model.TechStackId} was not found");
+            }
+
+            updateTechStack.Language = model.Language;
+            updateTechStack.Proficiency = model.Proficiency;
+
+            await _context.SaveChangesAsync();
         }
 
 
         // Delete tech using ID - returns none
-        public void DeleteTech(int id)
+        public async Task DeleteTech(int id)
         {
-            var techStack = _context.techStack.FirstOrDefault(tech => tech.Id == id);
+            var deleteTechStack = await _context.techStack.FindAsync(id);
 
-            if (techStack != null)
+            if (deleteTechStack == null)
             {
-                _context.techStack.Remove(techStack);
-                _context.SaveChanges();
+                throw new KeyNotFoundException($"Tech Stack with ID: {id} was not found");
             }
+
+            _context.Remove(deleteTechStack);
+            await _context.SaveChangesAsync();
         }
     }
 }

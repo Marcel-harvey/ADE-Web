@@ -9,7 +9,7 @@ namespace ADE_Web.Services.TechStackService
         List<TechStackModel> GetAllTech();
         TechStackModel? GetTech(int id);
         Task AddTech(CreateTechStackBiewModel tech);
-        void UpdateTech(TechStackModel tech);
-        void DeleteTech(int id);
+        Task UpdateTech(UpdateTechStackViewModel tech);
+        Task DeleteTech(int id);
     }
 }

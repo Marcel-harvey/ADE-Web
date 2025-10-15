@@ -97,6 +97,43 @@ namespace ADE_Web.Controllers
             return RedirectToAction(nameof(ViewTechStack));
         }
 
+
+        // POST: Edit current Tech Stack item - done through AJAX on modal view
+        [HttpPost]
+        public async Task<IActionResult> UpdateTechStack(UpdateTechStackViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Input");
+            }
+
+            try
+            {
+                await _techService.UpdateTech(model);
+                return Ok(new { message = "Blog updated successgully" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+
+        // POST: Delete current Tech Stack item - done through AJAX on modal view
+        [HttpPost]
+        public async Task<IActionResult> DeleteTechStack(int id)
+        {
+            try
+            {
+                await _techService.DeleteTech(id);
+                return Ok(new { message = "Blog deleted successfully" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         // ================ BLOG SECTION ================
         //GET: View all blogs
         public IActionResult ViewBlog()
