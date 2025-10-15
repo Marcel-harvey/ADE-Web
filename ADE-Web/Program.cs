@@ -4,27 +4,23 @@ using ADE_Web.Services.BlogService;
 using ADE_Web.Services.TechStackService;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL;
 using System.Globalization;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. Add SQL Server connection
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// 2. Add Identity with roles
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
-    options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
-
-// Postgre sql connection string hosted on nean.tech
+// --- DATABASE CONNECTION ---
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
                        ?? Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
+
+// --- IDENTITY ---
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    options.SignIn.RequireConfirmedAccount = false)
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -32,33 +28,37 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 });
 
-// Register scopes
+// --- SERVICES ---
 builder.Services.AddScoped<IAppsService, AppsService>();
 builder.Services.AddScoped<ITechService, TechService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 
-// Add services to the container
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Create Admin User
+// --- AUTO MIGRATION ---
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    db.Database.Migrate();
+}
+
+// --- CREATE ADMIN USER ---
 async Task CreateAdminUser(IApplicationBuilder app)
 {
     using var scope = app.ApplicationServices.CreateScope();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-    var adminEmail = "marcel@ade.com";
-    var adminPassword = "Admin123!";
+    var adminEmail = builder.Configuration["AdminUser:Email"] ?? "marcel@ade.com";
+    var adminPassword = builder.Configuration["AdminUser:Password"] ?? "Admin123!";
     var adminRole = "Admin";
 
-    // Create role if not exists
     if (!await roleManager.RoleExistsAsync(adminRole))
         await roleManager.CreateAsync(new IdentityRole(adminRole));
 
-    // Create admin user if not exists
     var user = await userManager.FindByEmailAsync(adminEmail);
     if (user == null)
     {
@@ -76,14 +76,14 @@ async Task CreateAdminUser(IApplicationBuilder app)
 
 await CreateAdminUser(app);
 
-// Middleware setup
+// --- MIDDLEWARE ---
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 
-// Setup culture
+// --- CULTURE SETTINGS ---
 var defaultCulture = new CultureInfo("en-ZA");
 defaultCulture.NumberFormat.NumberDecimalSeparator = ".";
 defaultCulture.NumberFormat.CurrencyDecimalSeparator = ".";
@@ -93,9 +93,7 @@ CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
