@@ -65,6 +65,27 @@ namespace ADE_Web.Controllers
         }
 
 
+        // POST Update apps built
+        [HttpPost]
+        public async Task<IActionResult> UpdateAppsBuilt(UpdateAppsBuiltViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest("Invalid Input");
+            }
+
+            try
+            {
+                await _appsService.UpdateApp(model);
+                return Ok(new { message = "App updated successgully" });
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+
         // ================ TECH STACK SECTION ================
         // GET: View tech stack
         public IActionResult ViewTechStack()

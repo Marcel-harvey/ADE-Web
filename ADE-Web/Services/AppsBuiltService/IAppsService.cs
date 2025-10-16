@@ -10,7 +10,7 @@ namespace ADE_Web.Services.AppsBuiltService
         List<AppsBuiltModel> GetAllApps();
         AppsBuiltModel? GetApp(int id);
         Task AddApp(CreateAppsBuildViewModel model);
-        void UpdateApp(AppsBuiltModel app);
-        void DeleteApp(int id);
+        Task UpdateApp(UpdateAppsBuiltViewModel app);
+        Task DeleteApp(int id);
     }
 }

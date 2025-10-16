@@ -52,22 +52,76 @@ namespace ADE_Web.Services.AppsBuiltService
 
 
         // Update app - returns none
-        public void UpdateApp(AppsBuiltModel app)
+        public async Task UpdateApp(UpdateAppsBuiltViewModel model)
         {
-            _context.appsBuilt.Update(app);
-            _context.SaveChanges();
+            var updateApp = await _context.appsBuilt
+                .Include(app => app.appImprovements)
+                .FirstOrDefaultAsync(app => app.Id == model.AppId);
+
+            if (updateApp == null)
+                throw new KeyNotFoundException($"App with ID: {model.AppId} was not found");
+
+            // Update app properties
+            updateApp.AppName = model.AppName;
+            updateApp.AppGitHubUrl = model.AppGitHubUrl;
+            updateApp.AppDescription = model.AppDescription;
+
+            // Get IDs of submitted improvements
+            var submittedIds = model.Improvements
+                                    .Where(i => i.Id != 0)
+                                    .Select(i => i.Id)
+                                    .ToList();
+
+            // Remove improvements that exist in DB but were deleted in the modal
+            var toRemove = updateApp.appImprovements
+                                    .Where(i => !submittedIds.Contains(i.Id))
+                                    .ToList();
+
+            foreach (var rem in toRemove)
+                _context.appImprovement.Remove(rem);
+
+            // Add or update submitted improvements
+            foreach (var improvementModel in model.Improvements)
+            {
+                if (improvementModel.Id == 0)
+                {
+                    // New improvement
+                    var newImprovement = new AppImprovementModel
+                    {
+                        Improvement = improvementModel.Improvement,
+                        AppsBuiltId = updateApp.Id
+                    };
+                    updateApp.appImprovements.Add(newImprovement);
+                }
+                else
+                {
+                    // Existing improvement
+                    var existingImprovement = updateApp.appImprovements
+                        .FirstOrDefault(imp => imp.Id == improvementModel.Id);
+
+                    if (existingImprovement != null)
+                        existingImprovement.Improvement = improvementModel.Improvement;
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
 
+
         // Delete app using Id - return none
-        public void DeleteApp(int id)
+        public async Task DeleteApp(int id)
         {
-            var app = _context.appsBuilt.FirstOrDefault(app => app.Id == id);
-            if (app != null)
+            var deleteApp = await _context.appsBuilt.FindAsync(id);
+
+            if (deleteApp == null)
             {
-                _context.appsBuilt.Remove(app);
-                _context.SaveChanges();
+                throw new KeyNotFoundException($"App with ID: {id} was not found");
             }
+
+            _context.appsBuilt.Remove(deleteApp);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
