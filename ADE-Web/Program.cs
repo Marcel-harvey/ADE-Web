@@ -78,11 +78,16 @@ async Task CreateAdminUser(IApplicationBuilder app)
 await CreateAdminUser(app);
 
 // 6. Middleware
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseDeveloperExceptionPage(); // Shows detailed errors in dev
+}
+else
+{
+    app.UseExceptionHandler("/Home/Error"); // Production error page
     app.UseHsts();
 }
+
 
 var defaultCulture = new CultureInfo("en-ZA");
 defaultCulture.NumberFormat.NumberDecimalSeparator = ".";
