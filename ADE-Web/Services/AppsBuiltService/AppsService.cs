@@ -77,7 +77,7 @@ namespace ADE_Web.Services.AppsBuiltService
                                     .Where(i => !submittedIds.Contains(i.Id))
                                     .ToList();
 
-            foreach (var rem in toRemove)
+            foreach (var rem in toRemove) 
                 _context.appImprovement.Remove(rem);
 
             // Add or update submitted improvements
@@ -106,7 +106,6 @@ namespace ADE_Web.Services.AppsBuiltService
 
             await _context.SaveChangesAsync();
         }
-
 
 
         // Delete app using Id - return none
