@@ -25,6 +25,13 @@ namespace ADE_Web.Data
                 foreach (var prop in dateTimeProps)
                     prop.SetValueConverter(converter);
             }
+
+            // Configure cascade delete for appImprovement
+            modelBuilder.Entity<AppImprovementModel>()
+                .HasOne(ai => ai.AppsBuilt)
+                .WithMany(a => a.appImprovements)
+                .HasForeignKey(ai => ai.AppsBuiltId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         // Applications Models
